@@ -2,6 +2,7 @@ version: "3.8"
 services:
   mongo:
     image: "mongo"
+    restart: on-failure
     ports:
       - "27017:27017"
     volumes:
@@ -9,6 +10,13 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: "mana"
       MONGO_INITDB_ROOT_PASSWORD: "12345"
+      MONGO_INITDB_ROOT_DATABASE: "cinema"
+
+  mongo-seed:
+    build: ./mongo-seed
+    depends_on:
+      - mongo
+
   backend:
     build: ./backend
     ports:
