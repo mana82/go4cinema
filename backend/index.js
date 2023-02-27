@@ -7,7 +7,7 @@ const db = require('./db')
 const movieRoute = require('./routes/movie-router')
 
 const app = express();
-const port = 8080
+const port = 5000
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
@@ -18,9 +18,8 @@ app.get('/', (req, res) => {
     res.send('Welcome to Go4 Cinema!')
 })
 
-db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+db.on('error', console.error.bind(console, 'Oops! MongoDB connection error:'))
 
 app.use('/api', movieRoute)
 
 app.listen(port, () => console.log(`Server running on port ${port}`))
-
