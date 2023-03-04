@@ -8,5 +8,6 @@ router.put('/movies/:id', movie.updateMovie)
 router.delete('/movies/:id', movie.deleteMovie)
 router.get('/movies/:id', movie.getMovieById)
 router.get('/movies', movie.getMovies)
+router.get('/find/:params', movie.searchMovies)
 
 module.exports = router

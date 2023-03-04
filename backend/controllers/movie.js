@@ -33,7 +33,7 @@ createMovie = (req, res) => {
             })
         })
 }
-
+//update movies
 updateMovie = async (req, res) => {
     const body = req.body
 
@@ -93,7 +93,7 @@ deleteMovie = async (req, res) => {
         return res.status(200).json({ success: true, message: 'The movie information successfully deleted!' })
     }).catch(err => console.log(err))
 }
-
+// get movies by id
 getMovieById = async (req, res) => {
     await Movie.findOne({ _id: req.params.id }, (err, movie) => {
         if (err) {
@@ -108,9 +108,24 @@ getMovieById = async (req, res) => {
         return res.status(200).json({ success: true, data: movie })
     }).catch(err => console.log(err))
 }
-
+// list all movies
 getMovies = async (req, res) => {
     await Movie.find({}, (err, movies) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!movies.length) {
+            return res
+                .status(404)
+                .json({ success: false, error: `No movie found!` })
+        }
+        return res.status(200).json({ success: true, data: movies })
+    }).catch(err => console.log(err))
+}
+
+// Search movies
+searchMovies = async (req, res) => {
+    await Movie.find({ $text: { $search: req.params.params } }, (err, movies) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
@@ -130,4 +145,5 @@ module.exports = {
     deleteMovie,
     getMovies,
     getMovieById,
+    searchMovies,
 }
